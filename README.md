@@ -1,70 +1,69 @@
-# Getting Started with Create React App
+# news_app
+使用者可以瀏覽最新最熱門的新聞，包括體育，娛樂，政治，財經
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 系統技術
+1. react.js
+2. axios
+3. Api connect
 
-## Available Scripts
+# 程式說明
+透過axios協定獲取request, 
+axios.get('api_url')
 
-In the project directory, you can run:
+將response傳來的json格式資料，轉變為使用喜愛頁面。
 
-### `npm start`
+以其中一個components 為例
+```
+import React from 'react'
+import axios from 'axios'
+import {useState, useEffect } from 'react'
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+function Entertainment() {
+    const [articles, setArticles] = useState([])
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+    try{
+      useEffect(() => {
+        const getArticles = async ()=>{
+        const response = await axios.get(`https://newsapi.org/v2/top-headlines?country=us&category=entertainment&apiKey=${process.env.REACT_APP_SECRET_NAME}`)
+        setArticles(response.data.articles)
+        console.log(response)
+       }
+       getArticles()
+     }, [])
+    }catch(error){
+      console.log(error);
+    }
+  return (
+    <div>
+     {articles.map(article => {
+       return (
+        <div class="row no-gutters bg-light position-relative">
+        <div class="col-md-6 mb-md-0 p-md-4">
+          <img src={article.urlToImage} class="w-100" alt={article.title} /> 
+        </div>
+        <div class="col-md-6 position-static p-4 pl-md-0">
+          <h5 class="mt-0">{article.title}</h5>
+          <p>{article.description}</p>
+          <a href={article.url} class="btn btn-primary stretched-link">Go to details</a>
+        </div>
+      </div>
+         )
+     })}
+    </div>
+  )
+}
 
-### `npm test`
+export default Entertainment
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+# 娛樂新聞
+![](https://i.imgur.com/1WvBGPl.jpg)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+體育
+![](https://i.imgur.com/1XcCnsU.jpg)
+政治
+![](https://i.imgur.com/SVuPBsG.jpg)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+財經
+![](https://i.imgur.com/MAJsajk.jpg)
